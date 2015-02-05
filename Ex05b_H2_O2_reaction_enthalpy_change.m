@@ -17,5 +17,8 @@ Tr=350; % K
 P=10; % bar
 nr=[2;1;0;0;0;0]; % mol
 
-[Tp,np]=hgsTp(species,nr,298,1)
+% Solver options
+options = optimset('Algorithm','interior-point','Display','iter','TolFun',1e-8,'Tolx',1e-8);
+
+[Tp,np]=hgsTp(species,nr,298,1,'fzero',[],options)
 np/sum(np)

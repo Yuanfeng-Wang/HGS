@@ -1,4 +1,4 @@
-function [ Tp,np ] = hgsTp(species,nr,Tr,P,info)
+function [ Tp,np ] = hgsTp(species,nr,Tr,P,solver,Tstar,options)
 %***********************************************************************************************************
 %* HGS 1.3
 %* By Arnau Miro, Pau Manent and Manel Soria
@@ -17,7 +17,10 @@ function [ Tp,np ] = hgsTp(species,nr,Tr,P,info)
 %   nr               -> Vector for the number of mols of the inlet species
 %   Tr [K]           -> Inlet temperature
 %   P [bar]         -> Pressure of the chamber
-%   info              -> Request info level of the solver
+%   solver         -> Select solver from fsolve/fzero to hgsfsolve
+%   Tstar           -> Temperature for start solver iteration
+%   options      -> Options structure / optimset parameters for 
+%                             fzero/fsolve routines.
 %
 % Output:
 %   Tp              -> Products temperature (K)
@@ -29,7 +32,9 @@ function [ Tp,np ] = hgsTp(species,nr,Tr,P,info)
 %   OpenLLOP, UPC-ETSEIAT 2014-2015
 
 % If info not inputed make it empty.
-if ~exist('info','var'), info=[]; end
+if ~exist('solver','var'), solver='fzero'; end
+if ~exist('options','var'), options=[]; end
+if ~exist('Tstar','var') || isempty(Tstar), Tstar=2500; end
 
 [~,~,~,~,~,~,Hin,~,~]=hgsprop(species,nr,Tr,P); % Inlet enthalpy
 
@@ -40,7 +45,7 @@ if ~exist('info','var'), info=[]; end
     end
 
 % Solving the problem
-[Tp,~]=hgsfzero( @DeltaH,300,5000,2,1e-1,1e-4,200,info);
+Tp = hgssolve(@DeltaH,Tstar,solver,options);
 
 np=hgseq(species,nr,Tp,P);
 

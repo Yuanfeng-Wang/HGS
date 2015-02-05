@@ -63,7 +63,10 @@ disp('3-Verification of the insentropic expansion at a certain pressure Pt');
 
 Pt=0.1 
 
-[ Tt,nt ] = hgsisentropic(species,ni_rpa,Tc,Pc,Pt,'shifting'  )
+% Solver options
+options = struct('x2',5000,'fchange',2,'epsx',1e-1,'epsy',1e-4,'maxite',200,'info',1);
+
+[ Tt,nt ] = hgsisentropic(species,ni_rpa,Tc,Pc,Pt,'shifting','hgsfzero',300,options)
 
 %{
     function DeltaS=DeltaS(T)

@@ -1,4 +1,4 @@
-function [ T2,n2,v2,M2 ] = hgsisentropic( species,n1,T1,P1,P2,eql,info )
+function [ T2,n2,v2,M2 ] = hgsisentropic( species,n1,T1,P1,P2,eql,solver,Tstar,options )
 %***********************************************************************************************************
 %* HGS 1.3
 %* By Arnau Miro, Pau Manent and Manel Soria
@@ -19,7 +19,10 @@ function [ T2,n2,v2,M2 ] = hgsisentropic( species,n1,T1,P1,P2,eql,info )
 %   P1 [bar]      -> Pressure of the chamber
 %   P2 [bar]      -> Outlet pressure
 %   eq1              -> 'shifting' or 'frozen'
-%   info              -> Request info level of the solver
+%   solver         -> Select solver from fsolve/fzero to hgsfsolve
+%   Tstar           -> Temperature for start solver iteration
+%   options      -> Options structure / optimset parameters for 
+%                             fzero/fsolve routines.
 %
 % Output:
 %   T2              -> Products temperature (K)
@@ -33,7 +36,9 @@ function [ T2,n2,v2,M2 ] = hgsisentropic( species,n1,T1,P1,P2,eql,info )
 %   OpenLLOP, UPC-ETSEIAT 2014-2015
 
 % If info not inputed make it empty.
-if ~exist('info','var'), info=[]; end
+if ~exist('solver','var'), solver='hgsfzero'; end
+if ~exist('options','var'), options=[]; end
+if ~exist('Tstar','var') || isempty(Tstar), Tstar=T1/2; end
 
 if strcmpi(eql,'shifting')==0 && strcmpi(eql,'frozen')==0
     error('eql should be ''shifting'' or ''frozen''');
@@ -45,8 +50,15 @@ m1=sum(n1)*MM1*1e-3;
 h1=H1/m1;
 
 % Solving the problem
-%T2=fsolve(@DeltaS,T1/2,optimset('Display','none'));
-T2=hgsfzero(@DeltaS,300,T1,10,1e-4,1e-5,300,info);
+T2 = hgssolve(@DeltaS,Tstar,solver,options);
+% Select solver from fzero/fsolve or hgsfzero
+% if strcmp(solver,'hgsfzero')
+%     T2=hgsfzero(@DeltaS,300,T1,10,1e-4,1e-5,300,info);
+% else
+%     if isempty(info), info = optimset('Display','none'); end
+%     fun = str2func(solver);
+%     T2 = fun(@DeltaS,T1/2,info);
+% end
 
 if strcmpi(eql,'shifting')==1
     n2=hgseq(species,n1,T2,P2);

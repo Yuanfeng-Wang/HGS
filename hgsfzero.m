@@ -1,38 +1,49 @@
-function [ xc,yc ] = hgsfzero( f,x1,x2, fchange,epsx,epsy,maxite,info )
+function [xc, yc, flag] = hgsfzero(f,x1,options)
 %***********************************************************************************************************
 %* HGS 1.3
 %* By Manel Soria
 %
 %* LLOP, ETSEIAT UPC          
 %***********************************************************************************************************
-% 
-% Solver: optimized solver for hgs code.
-% For any issues with the code see the documentation manual.
 %
 % Usage:
-%       [ xc,yc ] = HGSFZERO( f,x1,x2, fchange,epsx,epsy,maxite,info )
+%       [ xc,yc ] = HGSFZERO( f,x1,options )
 %
 % Inputs:
+%   - f    -> function to solve.
+%   - x1 -> Point of the function.
+%   - options -> Structure containing:
+%       -> x2: Second point of the function
+%       -> fchange: 
+%       -> epsx: Solution tolerance
+%       -> epsy: Function tolerance
+%       -> maxite: Maximum number of iterations
+%       -> info: Solver information
 %
 % Output:
+%   - xc -> solution of the function.
+%   - yc -> value of the function at the solution point.
+%   - flag -> exit flag:
+%       -> 1: Solution converged
+%       -> -1: Solution not converged
 %
 % See also FSOLVE, FZERO
 %
 %   This code is part of the HGS TOOLBOX
 %   OpenLLOP, UPC-ETSEIAT 2014-2015
 
+% Get values from structure
+x2 = options.x2;
+fchange = options.fchange;
+epsx = options.epsx;
+epsy = options.epsy;
+maxite = options.maxite;
+info = options.info;
+
+% Compute values of the function
 y1=f(x1);
 y2=f(x2);
-if y1*y2 > 0 
-    fprintf('myfzero.. problems... plotting function to be solved \n');
-    xxv=linspace(x1,x2,10);
-    for ii=1:length(xxv)
-        yyv(ii)=f(xxv(ii));
-    end
-    figure
-    plot(xxv,yyv);
-    error('uhhh ? no sign change x1=%e y1=%e x2=%e y2=%e',x1,y1,x2,y2);
-end
+
 
 for i=1:maxite
     if x2-x1 > fchange % fchange should be about 1
@@ -54,14 +65,18 @@ for i=1:maxite
     if yc*y1>0
         y1=yc;
         x1=xc;
-        flag=1;
+        %flag=1;
     else
         y2=yc;
         x2=xc;
-        flag=2;
+        %flag=2;
     end
 
 end
 
-end
+% Exit flag
+flag = 1;
+% Error flag
+if i == maxite, flag = -1; end
 
+end
