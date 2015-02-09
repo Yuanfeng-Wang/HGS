@@ -5,12 +5,11 @@
 %* LLOP, ETSEIAT UPC          
 %***********************************************************************************************************
 %
-% Example 08: ISP vs OF ratio
+% Example 08: Compute the ISP of H2, O2 mixture vs OF ratio
 
 function Ex08_Isp_vs_OF_ratio
 
-clear;
-
+close all;
 
 species={'H','H2','H2O','H2O2','HO2','O','O2','OH'};
 
@@ -24,8 +23,13 @@ visp=[]; % vector of specific impulses
 
 
 
+Tcs=1800;
+T2s=400;
+
 for rof=2:0.25:8
     
+    fprintf('solving for rof=%f \n',rof);
+   
     % evaluate mol of each specie at inlet for a given ROF ratio
     nO2=1;
     mO2=nO2*32;
@@ -47,7 +51,7 @@ for rof=2:0.25:8
     % Evaluate inlet properties with HGS assuming gas state
     [~,~,MM,~,~,~,H,~,~]=hgsprop(species,ni_i,Te,Pc);
     n=sum(ni_i); % mixture total number of mols (1)
-    m=n*MM*1e-3 % mixture mass kg
+    m=n*MM*1e-3; % mixture mass kg
     h1G=H/m;     % inlet mixture enthalpy in GAS state kJ/kgK 
                  % we evaluate it just for comparision
 
@@ -60,36 +64,29 @@ for rof=2:0.25:8
     % Enthalpy of H2 liq at Tsat 10 bar (kJ/mol)
     hH2=hgssingle('H2','h',413.96,10)-10.9495; 
     Hin=ni_i(2)*hH2+ni_i(7)*hO2;
-    h1=Hin/m % inlet mixture enthalpy in LIQUID state kJ/kg 
+    h1=Hin/m; % inlet mixture enthalpy in LIQUID state kJ/kg 
 
     % We find temperature at nozzle inlet solving for Delta_H=0
     % hgsTp function can't be used as it assumes gas state
     
-    Tc=fzero(@DeltaH,3000,optimset('Display','iter'));
+    Tc=fsolve(@DeltaH,Tcs,optimset('Display','none'));
+    fprintf('Chamber outlet temperature Tc=%f \n',Tc);
+    Tcs=Tc; % In next interation, we will begin with the solution obtained now
+    
     %Tc=myfzero(@DeltaH,300,4500,10,1e-4,1e-5,300);
     ni_calc=hgseq(species,ni_i,Tc,Pc);
     [Cp,Cv,MM,Rg,gamma,a,H,G,S]=hgsprop(species,ni_calc,Tc,Pc);
-    m=sum(ni_calc)*MM*1e-3 % mixture mass kg (has to be as before!)
+    m=sum(ni_calc)*MM*1e-3; % mixture mass kg (has to be as before!)
     s=S/m;    
         
+    % We use the previous value of T2 to begin the iterations
+    % fzero is more robust solver in this case, but decreasing the
+    % tolerance we can solve the problem with fsolve, that is faster
+    [T2,~,vt ] = hgsisentropic(species,ni_calc,Tc,Pc,P2,'shifting','fsolve',T2s,optimset('Display','iter','TolFun',1e-9,'TolX',1e-3));
+    T2s=T2;
     
-    [ T2,n2 ] = hgsisentropic(species,ni_calc,Tc,Pc,P2,'shifting'  );
+    fprintf('Nozzle outlet temperature T2=%f \n',T2);
     
-    [~,~,MM2,~,~,a2,H2,~,S2]=hgsprop(species,n2,T2,P2);
-    m2=sum(n2)*MM2*1e-3; % mixture mass kg
-    h2=H2/m2;
-    
-    %{ 
-    %check..
-    s
-    s2=S2/m2 % kJ/kgK
-    
-    %}
-    
-    % here h1 is the chamber inlet enthalpy, that is equal to the
-    % nozzle inlet enthalpy
-    vt=sqrt(2*1000*(h1-h2)); % Enthalpy en J !
-
     Is=vt/9.81; % Is (optimal expansion, Pe=Pambient)    
 
     vrof(end+1)=rof;

@@ -26,7 +26,9 @@ P=5; % bar
 
 molprop=linspace(1,4,15);
 for i=1:length(molprop)
+    fprintf('Solving for i=%d / %d ... \n',i,length(molprop)); 
     nr=[molprop(i);0;0;5;0;0;0;0;0]; % mol
     [Tp(i),np]=hgsTp(species,nr,298,1);
 end
 plot(molprop,Tp);
+grid;

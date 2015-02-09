@@ -28,6 +28,7 @@ Code files
 | 07 | isentropic comparison with RPA software
 | 08 | ISP vs OF ratio
 | 09 | Comparison between hgs / rpa using RP-1
+| 10 | Solvers
 
 Internal files:
 * BurcatDB.mat: database
@@ -35,3 +36,4 @@ Internal files:
 * hgsid
 * hgsmix
 * hgsfzero
+* hgssolve

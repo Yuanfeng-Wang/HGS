@@ -21,8 +21,13 @@ function [ T2,n2,v2,M2 ] = hgsisentropic( species,n1,T1,P1,P2,eql,solver,Tstar,o
 %   eq1              -> 'shifting' or 'frozen'
 %   solver         -> Select solver from fsolve/fzero to hgsfsolve
 %   Tstar           -> Temperature for start solver iteration
-%   options      -> Options structure / optimset parameters for 
-%                             fzero/fsolve routines.
+%   options (optional) -> Options of the solver to be used. For Matlab solvers use the
+%     OPTIMSET structure to generate the options structure. For custom
+%     hgsfzero generate the following structure:
+%
+%       options = struct('x2',5000,'fchange',2,'epsx',1e-1,'epsy',1e-4,'maxite',200,'info',[]);
+%
+%     Where info can remain empty if nothing is to be set in screen.
 %
 % Output:
 %   T2              -> Products temperature (K)
@@ -51,14 +56,6 @@ h1=H1/m1;
 
 % Solving the problem
 T2 = hgssolve(@DeltaS,Tstar,solver,options);
-% Select solver from fzero/fsolve or hgsfzero
-% if strcmp(solver,'hgsfzero')
-%     T2=hgsfzero(@DeltaS,300,T1,10,1e-4,1e-5,300,info);
-% else
-%     if isempty(info), info = optimset('Display','none'); end
-%     fun = str2func(solver);
-%     T2 = fun(@DeltaS,T1/2,info);
-% end
 
 if strcmpi(eql,'shifting')==1
     n2=hgseq(species,n1,T2,P2);

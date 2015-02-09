@@ -6,15 +6,30 @@ function [ xc,yc ] = hgssolve(fun,x0,solver,options)
 %* LLOP, ETSEIAT UPC          
 %***********************************************************************************************************
 % 
-% Solver: solver selector for hgs code.
+% Solver selector for hgs code. 
+% Motivation: In some situations, the performance or even the functionality
+% of hgsTp and hgsisentropic depend on the solver they use. This function 
+% is called by hgsT and hsgisentropic and allows the external user to
+% select different solvers, including the in-house developped hgsfzero.
 % For any issues with the code see the documentation manual.
 %
-%
 % Inputs:
+%   - fun: Function handle of the equation to solve.
+%   - x0: Starting point to iterate.
+%   - solver: String with the solver to be used
+%   - options (optional): Options of the solver to be used. For Matlab solvers use the
+%     OPTIMSET structure to generate the options structure. For custom
+%     hgsfzero generate the following structure:
+%
+%       options = struct('x2',5000,'fchange',2,'epsx',1e-1,'epsy',1e-4,'maxite',200,'info',[]);
+%
+%     Where info can remain empty if nothing is to be set in screen.
 %
 % Output:
+%   - xc: Solution point x.
+%   - yc: Solution point y=f(xc)
 %
-% See also FSOLVE, FZERO
+% See also FSOLVE, FZERO, OPTIMSET
 %
 %   This code is part of the HGS TOOLBOX
 %   OpenLLOP, UPC-ETSEIAT 2014-2015
@@ -61,8 +76,9 @@ ylabel('function values','Fontsize',16);
 grid on;
 
 plot(xv,yv,'Linewidth',1.5);
+grid
 
 % Raise error
-error('uhhh ? no sign change x1=%e y1=%e x2=%e y2=%e',xv(1),yv(1),xv(n),yv(n));
+error('uhhh ? can''t solve the equation, check the plot to find the problem');
 
 end

@@ -11,9 +11,9 @@ function [xc, yc, flag] = hgsfzero(f,x1,options)
 %
 % Inputs:
 %   - f    -> function to solve.
-%   - x1 -> Point of the function.
+%   - x1 -> Beginning of the search interval
 %   - options -> Structure containing:
-%       -> x2: Second point of the function
+%       -> x2: End of the search interval
 %       -> fchange: 
 %       -> epsx: Solution tolerance
 %       -> epsy: Function tolerance
@@ -44,6 +44,12 @@ info = options.info;
 y1=f(x1);
 y2=f(x2);
 
+if y1*y2>0 % uh ? no sign change, we can't proceed safely 
+    flag=-1;
+    xc=x1;
+    yc=y1;
+    return
+end
 
 for i=1:maxite
     if x2-x1 > fchange % fchange should be about 1

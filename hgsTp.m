@@ -19,8 +19,13 @@ function [ Tp,np ] = hgsTp(species,nr,Tr,P,solver,Tstar,options)
 %   P [bar]         -> Pressure of the chamber
 %   solver         -> Select solver from fsolve/fzero to hgsfsolve
 %   Tstar           -> Temperature for start solver iteration
-%   options      -> Options structure / optimset parameters for 
-%                             fzero/fsolve routines.
+%   options (optional) -> Options of the solver to be used. For Matlab solvers use the
+%     OPTIMSET structure to generate the options structure. For custom
+%     hgsfzero generate the following structure:
+%
+%       options = struct('x2',5000,'fchange',2,'epsx',1e-1,'epsy',1e-4,'maxite',200,'info',[]);
+%
+%     Where info can remain empty if nothing is to be set in screen.
 %
 % Output:
 %   Tp              -> Products temperature (K)
