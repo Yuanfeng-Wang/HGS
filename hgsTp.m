@@ -10,7 +10,7 @@ function [ Tp,np ] = hgsTp(species,nr,Tr,P,solver,Tstar,options)
 % For any issues with the code see the documentation manual.
 %
 % Usage:
-%       [ Tp,np ] = HGSTP(species,nr,Tr,P,info)
+%       [ Tp,np ] = HGSTP(species,nr,Tr,P,solver,Tstar,options)
 %
 % Inputs:
 %   species         -> Cell array with the species of the inlet mixture

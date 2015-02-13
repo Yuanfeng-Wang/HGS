@@ -10,7 +10,7 @@ function [ T2,n2,v2,M2 ] = hgsisentropic( species,n1,T1,P1,P2,eql,solver,Tstar,o
 % For any issues with the code see the documentation manual.
 %
 % Usage:
-%       [T2,n2,v2,M2]=HGSTP(species,n1,T1,P1,P2,shifting)
+%       [T2,n2,v2,M2]=HGSISENTROPIC( species,n1,T1,P1,P2,eql,solver,Tstar,options )
 %
 % Inputs:
 %   species       -> Cell array with the species of the inlet mixture

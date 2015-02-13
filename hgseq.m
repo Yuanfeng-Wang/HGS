@@ -10,7 +10,7 @@ function [neq,deltaG] = hgseq(species,n0,T,p,options)
 % For any issues with the code see the documentation manual.
 %
 % Usage:
-%       [neq,deltaG] = HGSEQ(species,n,T,p)
+%       [neq,deltaG] = HGSEQ(species,n0,T,p,options)
 %
 % Inputs:
 %   species -> Cell array with the species of the reaction
