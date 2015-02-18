@@ -27,7 +27,7 @@ function [Cp,Cv,MM,Rg,gamma,a,H,G,S]=hgsprop(species,n,T,P)
 %   a  [m/s]        -> Sound speed of the mixture
 %   H  [kJ]         -> Enthalpy of the mixture
 %   G  [kJ]         -> Gibbs free energy of the mixture
-%   S  [kJ]         -> Entropy of the mixture
+%   S  [kJ/K]         -> Entropy of the mixture
 %
 % See also HGSEQ, HGSISENTROPIC, HGSSINGLE, HGSTP
 %

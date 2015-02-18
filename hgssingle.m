@@ -22,6 +22,9 @@ function out=hgssingle(specie,property,T,P)
 %
 % Output:
 %   out   -> value of the queried property
+%       > h [kJ/mol]
+%       > g [kJ/mol]
+%       > s [kJ/mol K]
 %
 % See also HGSEQ, HGSISENTROPIC, HGSPROP, HGSTP
 %
