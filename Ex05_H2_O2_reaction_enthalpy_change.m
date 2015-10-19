@@ -11,7 +11,8 @@
 % Outlet: H2O + (1/2)O2 at Tp
 
 clear
- 
+close 
+
 species={'H2','O2','H2O','H','O','OH'};
 Tr=350; % K 
 P=10; % bar
