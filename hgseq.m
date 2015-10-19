@@ -29,7 +29,7 @@ function [neq,deltaG] = hgseq(species,n0,T,p,options)
 %               order of index for given example:
 %               H2  O2  H2O  H  O  OH
 %               1   2   3    4  5  6
-%  deltaG -> Minimum value of the Gibbs free energy function
+%  deltaG -> Gibbs free energy of the equilibrium mixture
 %
 % See also HGSISENTROPIC, HGSPROP, HGSSINGLE, HGSTP, FMINCON, OPTIMSET
 %
