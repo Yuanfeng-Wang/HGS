@@ -23,9 +23,10 @@ if (~exist('IndexCell','var') || isempty(IndexCell)), load BurcatDB; end
 
 % Search for index in the IndexCell
 search = ismember(IndexCell(:,2),element);
-index = IndexCell{search,1};
 
 % If not found return an error
-if(all(search==0)), error('ERROR: Unknown %s',element); end
+if(all(search==0)), error('ERROR: Unknown %s',element); end % MANEL
+
+index = IndexCell{search,1};
 
 end
