@@ -20,11 +20,11 @@ hCH4=@(T) hgssingle('CH4','h',T,p);
 hO2=@(T)  hgssingle('O2','h',T,p);
 hN2=@(T)  hgssingle('N2','h',T,p);
 hH2O=@(T) hgssingle('H2O','h',T,p);
-hC2O=@(T) hgssingle('C2O','h',T,p);
+hCO2=@(T) hgssingle('CO2','h',T,p);
  
 % Combustion equation to solve: sum(hreactives) - sum(hproducts) = 0
 eq=@(Tp) 6.25*hCH4(Tr)+25*hO2(Tr)+25*(79/21)*hN2(Tr)-...
-         (12.5*hH2O(Tp)+12.5*hO2(Tp)+25*(79/21)*hN2(Tp));
+         (12.5*hH2O(Tp)+12.5*hO2(Tp)+25*(79/21)*hN2(Tp)+6.25*hCO2(Tp));
  
 options=optimset(...
         'Display','iter',...
