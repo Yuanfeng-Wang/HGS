@@ -14,11 +14,10 @@ function out=hgssingle(specie,property,T,P)
 %       out=HGSSINGLE(specie,property,T,P)
 %
 % Inputs:
-%   specie         -> string with the species
-%   n               -> the number of mols of the species
+%   specie     -> string with the species
 %   property   -> string indicating the queried property, either 'h', 'g' or 's'
-%   T [K]           -> Temperature of the mixture
-%   p [bar]         -> Pressure of the mixture
+%   T [K]      -> Temperature of the mixture
+%   p [bar]    -> Pressure of the mixture
 %
 % Output:
 %   out   -> value of the queried property
