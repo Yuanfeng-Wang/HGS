@@ -8,7 +8,7 @@
 % Example 05b: V2 Turbopump example (liquid H2O2 adiabatic decomposition)
 %
 % 80% H2O2 mass fraction
-% vaporization heat of H2O2 @ 80%: 420 cal/g = 420*4.18 kcal/kg
+% vaporization heat of H2O2 @ 80%: 420 cal/g = 420*4.18 kJ/kg
 % 
 % Inlet:  molH2O2.H2O2 + molH2O.H2O
 % Outlet: mollH2O2. (H2O + (1/2)O2 ) + molH2O a Tp
@@ -19,6 +19,8 @@ R=8.314*1e-3;   % kJ/molK
 Tr=300;         % K
 pp=8;           % bar (products' pressure)
 
+% We will consider 1kg of H2O2 at 80%  
+% 80% means 80% in MASS in this case !!
 molH2O2=0.8*(1/34e-3)   % molH2O2 for kg of reactives
 molH2O=0.2*(1/18e-3)    % molH2O for kg of reactives
 
@@ -44,6 +46,7 @@ fprintf('Tp = %.2f K \n',Tp);
 % first, gamma coeficient is needed
 [Cp,~,MM,~,gamma,~]=hgsprop({'H2O' 'O2'},[molH2O2+molH2O,molH2O2*0.5],Tp,pp);
 
+gamma
 p2=1; % pressure at turbine outlet
 nus=0.85
 
