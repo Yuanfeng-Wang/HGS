@@ -3,6 +3,7 @@
    <name>HGS</name>
    <type>toolbox</type>
    <icon>HelpIcon.DEMOS</icon>
+   <website/>
    <description>HGS aims to provide an open source and comprehensive approach to combustion problems and further isentropic expansion using the NASA polynomials.  The code has been originally developed inside ETSEIAT (UPC) by the students:  Pau Manent, Arnau Miró and Eva Astrid  with the supervision of professors:  Manel Soria and Ramón Carreras.  It is currently updated and maintained by Arnau Miró, Manel Soria and David de la Torre.  For further reference about the code see the documentation attached or email at: open(dot)llop(at)gmail(dot)com</description>
    <demosection>
       <label>HGS</label>
