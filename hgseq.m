@@ -105,6 +105,16 @@ c=zeros(1,10);
 for j=1:length(species)
     %Read every specie
     su=cell2mat(species(j));
+    
+    % Treat some special cases (Arnau)
+    switch (su)
+        case '(Jet-A(g))'
+            su = 'C12H23';
+        case '(Jet-A(L))'
+            su = 'C12H23';
+        case '(air)' % Full composition
+            su = 'O2N2Ar';
+    end
         
     %Search every element in the specie
     for i=1:length(su)
