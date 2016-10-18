@@ -17,7 +17,7 @@ T=2500;         % K
 p=1;           % bar
 
 
-pref=10; % bar (arbitrary pressure)
+pref=1; % bar (arbitrary pressure)
 
 % Gibbs free energy (g) is computed for each species separately. The rest
 % of properties are ignored.
@@ -28,7 +28,6 @@ pref=10; % bar (arbitrary pressure)
 % Definition of K
 deltag=gCO+0.5*gO2-gCO2;
 K=exp(-deltag/(Ru*T));
-
 
 % Amount of mols as a function of z
 nCO=@(z) z;
@@ -62,7 +61,7 @@ options=optimset(...
 zi=0.5; % a initial value (arbitrary) of z is given
 [z,fval,exitflag]=fsolve(eq,zi,options);
 
-fprintf('K=%e (for Pref=%f) z=%e\n',K,pref,z);
+fprintf('K=%e z=%e\n',K,z);
 
 fprintf('x_CO =%6.4f \n',xCO(z));
 fprintf('x_CO2=%6.4f \n',xCO2(z));
