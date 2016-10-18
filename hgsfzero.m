@@ -14,7 +14,7 @@ function [xc, yc, flag] = hgsfzero(f,x1,options)
 %   - x1 -> Beginning of the search interval
 %   - options -> Structure containing:
 %       -> x2: End of the search interval
-%       -> fchange: about 1.0 (where to change from bisection to derivative)
+%       -> fchange: 
 %       -> epsx: Solution tolerance
 %       -> epsy: Function tolerance
 %       -> maxite: Maximum number of iterations
@@ -53,10 +53,10 @@ end
 
 for i=1:maxite
     if x2-x1 > fchange % fchange should be about 1
-        xc=(x1+x2)/2; % fc=1: central point
+        xc=(x1+x2)/2;
         fc=1;
     else
-        xc=x1-y1*(x2-x1)/(y2-y1); % fc=0: secant
+        xc=x1-y1*(x2-x1)/(y2-y1);
         fc=0;
     end
     

@@ -57,10 +57,6 @@ h1=H1/m1;
 % Solving the problem
 T2 = hgssolve(@DeltaS,Tstar,solver,options);
 
-if DeltaS(T2)>0.5
-    error('ooops isentropic');
-end
-
 if strcmpi(eql,'shifting')==1
     n2=hgseq(species,n1,T2,P2);
 else
